@@ -1,7 +1,7 @@
 #ifndef CUSTOMSERIALPRINT_H_
 #define CUSTOMSERIALPRINT_H_
 
-//#define LOG_DEBUG 1 // Uncomment to activate verbose mode when running
+#define LOG_DEBUG 1 // Uncomment to activate verbose mode when running
 
 #include "../libraries/I2Cdev/I2Cdev.h"
 
@@ -14,8 +14,20 @@ class CustomSerialPrint {
     static void print(int _number) {
         Serial.print(_number);
     }
+    static void print(float _number) {
+        Serial.print(_number);
+    }
+    static void print(unsigned long _number) {
+        Serial.print(_number);
+    }
 
     static void println(int _number) {
+        Serial.println(_number);
+    }
+    static void println(float _number) {
+        Serial.println(_number);
+    }
+    static void println(unsigned long _number) {
         Serial.println(_number);
     }
 

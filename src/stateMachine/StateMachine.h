@@ -25,7 +25,25 @@ class StateMachine {
      bool IsSafetyStateNeeded();
 
      void SetState(IState *_newState) {
-         currentState = _newState;
+        currentState = _newState;
+        CustomSerialPrint::print("STATE: ");
+        switch (currentState->GetName()) {
+        case initialization:
+          CustomSerialPrint::println("initialization");
+          break;
+        case safety:
+          CustomSerialPrint::println("safety");
+          break;
+        case disarmed:
+          CustomSerialPrint::println("disarmed");
+          break;
+        case accroMode:
+          CustomSerialPrint::println("accroMode");
+          break;
+        case angleMode:
+          CustomSerialPrint::println("angleMode");
+          break;
+        }
      }
 
      int GetStateName()

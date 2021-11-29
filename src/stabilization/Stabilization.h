@@ -71,7 +71,7 @@ class Stabilization {
         inertialMeasurementUnit.ComputeOffsets();
     }
     inline void ComputeRxImpulsionWidth() {
-        radioReception.GetWidth();
+        //radioReception.GetWidth();  // ComputeRxImpulsionWidth() seems to be unused anyway
     }
     inline int GetFlyingMode() {
         return radioReception.GetFlyingMode();

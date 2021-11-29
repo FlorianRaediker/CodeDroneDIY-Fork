@@ -4,25 +4,51 @@
 unsigned long RadioReception::cPPM[CHANNELS_NB] = {
         0, 0, 0, 0, 0, 0,
 };
-bool RadioReception::initialized = false;
+//bool RadioReception::initialized = false;
 int RadioReception::nbSpacingEncountered = 0;
 int RadioReception::channel = 0;
-unsigned long RadioReception::PWM_Start = 0;
-unsigned long RadioReception::PWM_Stop = 0;
-unsigned long RadioReception::PWM_Width = 0;
+//unsigned long RadioReception::PWM_Start = 0;
+//unsigned long RadioReception::PWM_Stop = 0;
+//unsigned long RadioReception::PWM_Width = 0;
+unsigned long RadioReception::PWM_Starts[CHANNELS_NB] = {
+        0, 0, 0, 0, 0, 0,
+};
 
 bool RadioReception::Init() {
-    attachInterrupt(0, &GetWidth, RISING); // Receiver interrupt on PD2 (INT0)
+    //attachInterrupt(0, &GetWidth, RISING); // Receiver interrupt on PD2 (INT0)
+    pinMode(2, INPUT_PULLUP);
+    pinMode(3, INPUT_PULLUP);
+    pinMode(18, INPUT_PULLUP);
+    pinMode(19, INPUT_PULLUP);
+
+    attachInterrupt(digitalPinToInterrupt(2), [](){ GetWidth(0); }, CHANGE);   // Aile:  D2,  PE4 (rechts/links)
+    attachInterrupt(digitalPinToInterrupt(3), [](){ GetWidth(1); }, CHANGE);   // Elev:  D3,  PE5 (hinten/vorne)
+    attachInterrupt(digitalPinToInterrupt(18), [](){ GetWidth(2); }, CHANGE);  // Throt: D18, PD3 (oben/unten)
+    attachInterrupt(digitalPinToInterrupt(19), [](){ GetWidth(3); }, CHANGE);  // Rudd:  D19, PD2 (Drehung)
 
     CustomTime timeout;
     timeout.Init();
-    while (!initialized) {
-        CustomSerialPrint::println(F("RadioReception not ready, try again, please wait. "));
-        delay(200);
-        if (timeout.IsTimeout(2000)) {
+    //while (!initialized) {
+    CustomSerialPrint::print(F("RadioReception - ...: "));
+    CustomSerialPrint::println(isInitialized());
+    while (!isInitialized()) {
+        //CustomSerialPrint::print(F("RadioReception not ready, try again, please wait. "));
+        delay(20);
+        /*if (timeout.IsTimeout(2000)) {
             CustomSerialPrint::println(F("RadioReception - Timeout during initialization!!"));
             return false;
-        }
+        }*/
+    }
+    CustomSerialPrint::println(F("RadioReception - Initialized!"));
+    return true;
+}
+
+bool RadioReception::isInitialized() {
+    //for (int i=0; i<CHANNELS_NB; i++) {
+    return true;
+    PrintCmd();
+    for (int i=0; i<3; i++) {  // TEMPORARY FIX: ignore Rudd, change to 4 once the cable is fixed
+        if (cPPM[i] == 0) return false;
     }
     return true;
 }
@@ -35,8 +61,8 @@ void RadioReception::PrintCmd(void) {
     CustomSerialPrint::print(F(" Throt: "));
     CustomSerialPrint::print(cPPM[2]);
     CustomSerialPrint::print(F(" Rudd: "));
-    CustomSerialPrint::println(cPPM[3]);
-    CustomSerialPrint::print(F("Switch1: "));
+    CustomSerialPrint::print(cPPM[3]);
+    CustomSerialPrint::print(F(" Switch1: "));
     CustomSerialPrint::print(cPPM[4]);
     CustomSerialPrint::print(F(" Switch2: "));
     CustomSerialPrint::println(cPPM[5]);
@@ -62,6 +88,7 @@ long RadioReception::GetThrottle(const int _minPower, const int _maxThrottle) {
 }
 
 long RadioReception::GetYawSpeed() {
+    return map(1490, 1080, 1900, -MAX_YAW_SPEED, MAX_YAW_SPEED);  // TEMPORARY FIX UNTIL CABLE IS REPAIRED
     return map(static_cast<long>(cPPM[3]), 1080, 1900, -MAX_YAW_SPEED, MAX_YAW_SPEED);
 }
 bool RadioReception::GetSwitchH() {
@@ -72,15 +99,16 @@ bool RadioReception::GetSwitchH() {
 } // 1900 inter H en bas, 1090 inter H en haut
 
 int RadioReception::GetFlyingMode() {
-    if (cPPM[4] > 1800)
+    return accroMode;
+    /*if (cPPM[4] > 1800)
         return disarmed;
     else if (cPPM[4] < 1200)
         return angleMode;
     else
-        return accroMode;
+        return accroMode;*/
 } // G switch: pos0=1900, pos1=1500, pos2=1092
 
-void RadioReception::GetWidth(void) {
+/*void RadioReception::GetWidth(void) {
     PWM_Stop = micros();
     PWM_Width = PWM_Stop - PWM_Start;
     PWM_Start = PWM_Stop;
@@ -100,4 +128,13 @@ void RadioReception::GetWidth(void) {
         cPPM[channel] = PWM_Width;
         channel++;
     }
+}*/
+
+void RadioReception::GetWidth(int index) {
+    unsigned long stop = micros();
+    unsigned long width = stop - PWM_Starts[index];
+    if (width < 2000) {
+        cPPM[index] = width;
+    }
+    PWM_Starts[index] = stop;
 }

@@ -33,6 +33,7 @@ void CustomTime::ComputeMeanLoopTime(const float _loopTimeSec, float &_meanLoopT
                                      uint16_t &_loopNb) {
     if (_loopNb > 1000) {
         _meanLoopTime = _meanLoopTime / _loopNb;
+        CustomSerialPrint::print("Mean loop time: ");
         CustomSerialPrint::println(_meanLoopTime, 2);
         _meanLoopTime = 0;
         _loopNb = 0;

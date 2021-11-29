@@ -173,6 +173,14 @@ void Stabilization::ResetPID() {
 //
 void Stabilization::SetMotorsPwrXConfig() {
     int throttle = GetThrottle();
+    /*CustomSerialPrint::print("Throttle: ");
+    CustomSerialPrint::print(throttle);
+    CustomSerialPrint::print(" pitchMotorPwr: ");
+    CustomSerialPrint::print(pitchMotorPwr);
+    CustomSerialPrint::print(" rollMotorPwr: ");
+    CustomSerialPrint::print(rollMotorPwr);
+    CustomSerialPrint::print(" yawMotorPwr: ");
+    CustomSerialPrint::println(yawMotorPwr);*/
     motorsSpeedControl.UpdateSpeed(Motor0, throttle - pitchMotorPwr * mixing + rollMotorPwr * mixing
                                                    - yawMotorPwr * mixing);
     motorsSpeedControl.UpdateSpeed(Motor1, throttle - pitchMotorPwr * mixing - rollMotorPwr * mixing

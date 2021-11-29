@@ -20,14 +20,17 @@ class RadioReception {
 
   private:
     // PWM computation
-    static bool initialized;
+//    static bool initialized;
     static int nbSpacingEncountered;
     static int channel;
-    static unsigned long PWM_Start;
-    static unsigned long PWM_Stop;
-    static unsigned long PWM_Width;
+//    static unsigned long PWM_Start;
+//    static unsigned long PWM_Stop;
+//    static unsigned long PWM_Width;
     static constexpr uint8_t CHANNELS_NB = 6; // 6 channels without separation pulse
     static unsigned long cPPM[CHANNELS_NB];   // 6 channels without separation pulse
+    static unsigned long PWM_Starts[CHANNELS_NB];
+
+    static bool isInitialized();
 
   public:
     static bool Init();
@@ -47,7 +50,8 @@ class RadioReception {
 
     static int GetFlyingMode(); // G switch: pos0=1900, pos1=1500, pos2=1092
 
-    static void GetWidth(void);
+    //static void GetWidth(void);
+    static void GetWidth(int);
 };
 
 #endif // RADIORECEPTION_H_

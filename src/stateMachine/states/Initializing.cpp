@@ -17,6 +17,6 @@ void Initializing::Run(StateMachine *_stateMachine, const float) {
     while (!stabilization.AreAttitudeOffsetsComputed())
         stabilization.AttitudeComputeOffsets();
 
-    if ((stabilization.GetFlyingMode() == disarmed) && stabilization.AreAttitudeOffsetsComputed())
+    if (/*(stabilization.GetFlyingMode() == disarmed) &&*/ stabilization.AreAttitudeOffsetsComputed())
         SetState(_stateMachine, Disarmed::GetInstance());
 }
