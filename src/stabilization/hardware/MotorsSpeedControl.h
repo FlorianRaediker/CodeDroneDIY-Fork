@@ -17,7 +17,7 @@ class MotorsSpeedControl {
     const int MAX_POWER = 1860;             // Max pwr available. Set to 1860 to reach max
     const int MAX_THROTTLE_PERCENT = 100.0; // Percent to restrain max motor power
     uint16_t MAX_THROTTLE = MAX_POWER * (MAX_THROTTLE_PERCENT / 100.0); // Restrained max power
-    int IDLE_THRESHOLD = 1100;
+    int IDLE_THRESHOLD = 1100;  // (ÄNDERN, nicht unbedingt nötig:) Bis wann Throttle als 0 gilt
     static uint16_t motorsTicks[nbMotors];
     static int currMotor;
 

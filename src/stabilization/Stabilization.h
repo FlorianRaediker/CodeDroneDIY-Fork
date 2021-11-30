@@ -12,7 +12,7 @@
 
 class Stabilization {
   private:
-    const float mixing = 0.5;
+    const float mixing = 0.5;  // ÄNDERN, aber wird anscheinend letztendlich mit .G (aus ControlLoopConstants.h) multipliziert, es reicht also einen dieser Parameter zu ändern
     static const int nbAxis = 3;
     enum AXIS { XAXIS = 0, YAXIS = 1, ZAXIS = 2 };
     int rollMotorPwr, pitchMotorPwr, yawMotorPwr = 0;

@@ -11,8 +11,8 @@ class InertialMeasurementUnit{
   private:
     static const int AXIS_NB = 3;
     static const int SAMPLES_NB = 10;
-    float AcceleroSensitivity = -1;
-    float GyroSensitivity = -1;
+    float AcceleroSensitivity = -1;  // NICHT ÄNDERN, wird in InertialMeasurementUnit.cpp abhängig vom Sensorchip gesetzt
+    float GyroSensitivity = -1;  // NICHT ÄNDERN, wird in InertialMeasurementUnit.cpp abhängig vom Sensorchip gesetzt
     int16_t gyroOffsets[AXIS_NB] = {0, 0, 0};
     int16_t accOffsets[AXIS_NB] = {0, 0, 0};
     bool initialized = false;
