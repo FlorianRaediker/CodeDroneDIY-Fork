@@ -45,9 +45,8 @@ bool RadioReception::Init() {
 
 bool RadioReception::isInitialized() {
     //for (int i=0; i<CHANNELS_NB; i++) {
-    return true;
     PrintCmd();
-    for (int i=0; i<3; i++) {  // TEMPORARY FIX: ignore Rudd, change to 4 once the cable is fixed
+    for (int i=0; i<4; i++) {
         if (cPPM[i] == 0) return false;
     }
     return true;
@@ -88,7 +87,6 @@ long RadioReception::GetThrottle(const int _minPower, const int _maxThrottle) {
 }
 
 long RadioReception::GetYawSpeed() {
-    return map(1490, 1080, 1900, -MAX_YAW_SPEED, MAX_YAW_SPEED);  // TEMPORARY FIX UNTIL CABLE IS REPAIRED
     return map(static_cast<long>(cPPM[3]), 1080, 1900, -MAX_YAW_SPEED, MAX_YAW_SPEED);
 }
 bool RadioReception::GetSwitchH() {
