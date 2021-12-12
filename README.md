@@ -1,3 +1,7 @@
+**About this fork**: Use Arduino Mega instead of Nano (and change pins accordingly), Use 4 pins for RC instead of 1
+
+
+***
 
 # <p align="center">DIY flight controller from scratch</p>
 
