@@ -9,9 +9,9 @@ enum Mode { initialization, safety, disarmed, accroMode, angleMode };
 class RadioReception {
   public:
     // RadioReception setup
-    static constexpr float MAX_ANGLE = 45; // (°) Max roll and pitch angles reachable in angle mode
-    static constexpr float MAX_ROT_SPEED = 135; // (°/s) Max roll and pitch speed in accro mode
-    static constexpr float MAX_YAW_SPEED = 135; // (°/s) Max yaw speed in accro and angle modes
+    static constexpr float MAX_ANGLE = 45; // (°) Max roll and pitch angles reachable in angle mode  // evtl. ÄNDERN
+    static constexpr float MAX_ROT_SPEED = 100; // (°/s) Max roll and pitch speed in accro mode  // evtl. ÄNDERN
+    static constexpr float MAX_YAW_SPEED = 160; // (°/s) Max yaw speed in accro and angle modes  // evtl. ÄNDERN
 
     // Channel 1: Ailerons 1.09 to 1.90 ms
     // Channel 2: Prof 1.09 to 1.90 ms
